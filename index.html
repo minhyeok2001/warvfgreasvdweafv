@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dusting the Phantom improves Gaussian allocation for fast-moving dynamic content in 4D Gaussian Splatting.">
+  <meta name="keywords" content="4D Gaussian Splatting, dynamic view synthesis, Gaussian allocation, Seed Injection">
+  <title>Dusting the Phantom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/title-fix.css?v=result-images-1">
+</head>
+<body>
+  <nav class="site-nav" aria-label="Section navigation">
+    <div class="nav-links"><a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#results">Results</a></div>
+  </nav>
+
+  <main id="top">
+    <section class="hero publication-hero">
+      <div class="hero-orb orb-one"></div><div class="hero-orb orb-two"></div>
+      <div class="container is-max-desktop hero-content has-text-centered">
+        <p class="eyebrow">4D Gaussian Splatting</p>
+        <h1 class="publication-title">
+          <span class="title-main">Dusting the Phantom:</span>
+          <span class="title-subtitle">Gaussian Allocation for Fading Dynamic Content</span>
+        </h1>
+        <div class="publication-authors" aria-label="Authors">Anonymous Authors</div>
+        <div class="affiliations">ICLR 2027 Submission</div>
+        <div class="publication-links">
+          <a class="button paper-button disabled" href="#" aria-disabled="true"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a>
+          <a class="button paper-button disabled" href="#" aria-disabled="true"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a>
+          <a class="button paper-button disabled" href="#" aria-disabled="true"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section teaser-section">
+      <div class="container is-max-desktop">
+        <video class="main-demo" controls autoplay muted loop playsinline preload="metadata" aria-label="Dusting the Phantom main demonstration">
+          <source src="./static/videos/main_demo.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="./static/videos/main_demo.mp4">Download the demo.</a>
+        </video>
+        <p class="teaser-copy"><strong>Fast motion should not become a phantom.</strong> We allocate Gaussian capacity to under-reconstructed dynamic regions—and place it at the time it is needed.</p>
+      </div>
+    </section>
+
+    <section class="section" id="abstract">
+      <div class="container is-max-desktop narrow">
+        <div class="section-heading has-text-centered"><span class="section-number">01</span><h2>Abstract</h2></div>
+        <div class="abstract-card">
+          <p>Recent 4D Gaussian Splatting methods reconstruct dynamic scenes efficiently, yet challenging motion can remain poorly represented when Gaussian primitives are not allocated effectively across space and time. <strong class="abstract-highlight">Fine details fade, and small, rapidly moving objects may partially—or entirely—disappear.</strong></p>
+          <p>We introduce two complementary strategies for improving Gaussian allocation. <strong>Seed Injection</strong> finds poorly reconstructed dynamic regions from synchronized multi-view observations and introduces new primitives at geometrically plausible 3D locations. <strong>Temporal Biased Relocation</strong> preserves timestamp-specific optimization signals to decide when relocation should occur, then places capacity using the Gaussian’s spatial position at that time.</p>
+          <p>Built on FreeTimeGS, our approach improves both overall reconstruction quality and highly dynamic regions across multiple datasets, including the recovery of small, fast-moving content.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section video-showcase" aria-label="Dynamic scene videos">
+      <div class="container is-max-desktop">
+        <div class="video-slider" role="region" aria-roledescription="carousel" aria-label="Three scene comparisons">
+          <div class="video-track" id="video-track" tabindex="0" aria-label="Scene comparisons; use left and right arrow keys to navigate">
+            <div class="video-slide" role="group" aria-roledescription="slide" aria-label="1 of 3: CMU Juggle">
+              <h3 class="comparison-title">CMU Juggle</h3>
+              <div class="comparison-wipe">
+                <div class="wipe-layer wipe-layer-ours">
+                  <video class="wipe-ours" muted playsinline preload="auto" aria-label="CMU Juggle, Ours" src="./static/videos/CMU_juggle_ours.mp4"></video>
+                  <span class="wipe-label wipe-label-right">Ours</span>
+                </div>
+                <div class="wipe-layer wipe-layer-ftgs">
+                  <video class="wipe-ftgs" muted playsinline preload="auto" aria-label="CMU Juggle, FTGS" src="./static/videos/CMU_juggle_ftgs.mp4"></video>
+                  <span class="wipe-label wipe-label-left">FTGS</span>
+                </div>
+                <div class="wipe-divider" aria-hidden="true"><span>↔</span></div>
+                <input class="wipe-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare FTGS on the left and Ours on the right">
+              </div>
+              <button class="comparison-play" type="button">Play comparison</button>
+            </div>
+            <div class="video-slide" role="group" aria-roledescription="slide" aria-label="2 of 3: Custom dataset Baseball">
+              <h3 class="comparison-title">Custom dataset Baseball</h3>
+              <div class="comparison-wipe">
+                <div class="wipe-layer wipe-layer-ours">
+                  <video class="wipe-ours" muted playsinline preload="auto" aria-label="Custom dataset Baseball, Ours" src="./static/videos/custom_baseball_ours_frames61_132.mp4"></video>
+                  <span class="wipe-label wipe-label-right">Ours</span>
+                </div>
+                <div class="wipe-layer wipe-layer-ftgs">
+                  <video class="wipe-ftgs" muted playsinline preload="auto" aria-label="Custom dataset Baseball, FTGS" src="./static/videos/custom_baseball_ftgs_frames61_132.mp4"></video>
+                  <span class="wipe-label wipe-label-left">FTGS</span>
+                </div>
+                <div class="wipe-divider" aria-hidden="true"><span>↔</span></div>
+                <input class="wipe-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare FTGS on the left and Ours on the right">
+              </div>
+              <button class="comparison-play" type="button">Play comparison</button>
+            </div>
+            <div class="video-slide" role="group" aria-roledescription="slide" aria-label="3 of 3: Custom dataset Break">
+              <h3 class="comparison-title">Custom dataset Break</h3>
+              <div class="comparison-wipe">
+                <!-- Break source filenames are reversed; mapping corrected per author. -->
+                <div class="wipe-layer wipe-layer-ours">
+                  <video class="wipe-ours" muted playsinline preload="auto" aria-label="Custom dataset Break, Ours" src="./static/videos/custom_break_ftgs_5s_9s.mp4"></video>
+                  <span class="wipe-label wipe-label-right">Ours</span>
+                </div>
+                <div class="wipe-layer wipe-layer-ftgs">
+                  <video class="wipe-ftgs" muted playsinline preload="auto" aria-label="Custom dataset Break, FTGS" src="./static/videos/custom_break_ours_5s_9s.mp4"></video>
+                  <span class="wipe-label wipe-label-left">FTGS</span>
+                </div>
+                <div class="wipe-divider" aria-hidden="true"><span>↔</span></div>
+                <input class="wipe-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare FTGS on the left and Ours on the right">
+              </div>
+              <button class="comparison-play" type="button">Play comparison</button>
+            </div>
+          </div>
+          <div class="video-navigation">
+            <button type="button" class="video-prev" aria-label="Previous scene" aria-controls="video-track">←</button>
+            <div class="video-dots" aria-label="Choose a scene">
+              <button type="button" aria-label="Show CMU Juggle" aria-current="true"></button>
+              <button type="button" aria-label="Show Custom dataset Baseball"></button>
+              <button type="button" aria-label="Show Custom dataset Break"></button>
+            </div>
+            <span class="video-counter" aria-live="polite">1 / 3</span>
+            <button type="button" class="video-next" aria-label="Next video" aria-controls="video-track">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method">
+      <div class="container is-max-desktop">
+        <div class="section-heading has-text-centered"><span class="section-number">02</span><h2>Gaussian Allocation, Reconsidered</h2><p>Our method addresses both missing spatial support and poorly chosen temporal destinations.</p></div>
+        <div class="method-grid">
+          <article class="method-card seed-card">
+            <div class="card-topline"><span>01</span><span class="mini-tag">SPACE</span></div>
+            <h3>Seed Injection</h3>
+            <figure class="method-figure">
+              <img src="./static/images/fig_1.jpg" alt="Seed mask calculation, multi-view Seed Injection, and before-and-after recovery of a moving ball" loading="lazy">
+              <figcaption>Seed Injection introduces new Gaussian support into under-reconstructed dynamic regions using synchronized multi-view observations.</figcaption>
+            </figure>
+            <p>A dynamic error-based seed map combines temporal intensity changes with reconstruction error. Sampled pixels are lifted through synchronized multi-view rays, producing geometrically plausible 3D seeds—even where no suitable Gaussian currently exists.</p>
+          </article>
+          <article class="method-card relocation-card">
+            <div class="card-topline"><span>02</span><span class="mini-tag">TIME</span></div>
+            <h3>Temporal Biased Relocation</h3>
+            <p>FreeTimeGS reuses low-opacity Gaussians but pays limited attention to when additional capacity is needed. We preserve the target Gaussian’s timestamp-specific positional gradients and select the time with the largest gradient magnitude as the moment requiring the strongest additional support. The relocated Gaussian is centered at that timestamp and the target’s corresponding 3D position, with its temporal duration adjusted accordingly.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container is-max-desktop">
+        <div class="section-heading has-text-centered"><span class="section-number">03</span><h2>Results</h2><p>Designed for general dynamics, pronounced human motion, and small high-speed content.</p></div>
+        <div class="result-grid">
+          <figure class="result-figure">
+            <h3>CMU Panoptic</h3>
+            <a href="./static/images/CMU_hompage.jpg" target="_blank" rel="noopener" aria-label="View CMU Panoptic comparison at full resolution">
+              <img src="./static/images/CMU_hompage.jpg" alt="CMU Panoptic comparison of Realtime4DGS, FreeTimeGS, Ours, and Ground Truth, with close-ups of a football, a bat, and juggling balls" loading="lazy">
+            </a>
+            <figcaption>Visual comparisons on CMU Panoptic. Insets highlight fast-moving objects and fine details.</figcaption>
+          </figure>
+          <figure class="result-figure">
+            <h3>Custom dataset</h3>
+            <a href="./static/images/custom_homepage.jpg" target="_blank" rel="noopener" aria-label="View Custom dataset comparison at full resolution">
+              <img src="./static/images/custom_homepage.jpg" alt="Custom dataset comparison of Realtime4DGS, FreeTimeGS, Ours, and Ground Truth, with close-ups of a moving ball, hands, and clothing details" loading="lazy">
+            </a>
+            <figcaption>Visual comparisons on Custom dataset. Insets highlight small moving content and details in dynamic regions.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer><p>Website template inspired by <a href="https://nerfies.github.io/">Nerfies</a>.</p></footer>
+  <script src="./static/js/index.js?v=playback-5"></script>
+</body>
+</html>
